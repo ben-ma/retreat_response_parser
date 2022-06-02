@@ -512,10 +512,7 @@ public class Main {
             Iterator<String> addressIterator = housemateDict.keySet().iterator();
             for (ArrayList<Person> value : housemateDict.values()) {
                 String address = addressIterator.next();
-                if (value.size() < 2) {
-                    continue;
-                }
-                else {
+
                     System.out.print(value.size() + " || ");
                     Iterator<Person> personIterator = value.iterator();
                     Iterator<Person> personIterator2 = value.iterator();
@@ -523,12 +520,15 @@ public class Main {
                         Person person = personIterator.next();
                         System.out.print(person.getChineseName() + ", " + person.getEnglishName() + " || ");
                     }
-                    System.out.print(address + "\n");
-                    while (personIterator2.hasNext()) {
-                        Person person = personIterator2.next();
-                        System.out.print(person.getChineseName() + ", " + person.getEnglishName() + ", " + person.getAddress() + "\n");
+                //System.out.print(address + "\n");
+                    System.out.print("\n");
+                    if (value.size() > 1) {
+                        while (personIterator2.hasNext()) {
+                            Person person = personIterator2.next();
+                            System.out.print(person.getChineseName() + ", " + person.getEnglishName() + ", " + person.getAddress() + "\n");
+                        }
                     }
-                }
+
             }
         }
         catch (IOException | CsvException e)
