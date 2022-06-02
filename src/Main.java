@@ -95,7 +95,7 @@ public class Main {
         ArrayList<Person> list = new ArrayList();
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\steph\\Downloads\\TCCA Retreat 2022 (Responses) - Form Responses.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("/Users/benjamin/Downloads/Retreat2022Responses.csv"));
 
             CSVReader csvReader = new CSVReader(br);
             List<String[]> listOfFamilies;
@@ -226,7 +226,7 @@ public class Main {
         }
     }
 
-    public static void retMealInfo(boolean includeNames) { //returns meal information - number of people eating on what day
+    public static void retMealInfo2(boolean includeNames) { //returns meal information - number of people eating on what day
         if (!includeNames) {
             System.out.println("6/18 Lunch: Total - " + getNumOfPeople("all", "6/18Noon") + "; Male - " + getNumOfPeople("male", "6/18Noon") + "; Female - " + getNumOfPeople("female", "6/18Noon") + "; Kids (12 and under) - " + getNumOfPeople("kid", "6/18Noon"));
             System.out.println("6/18 Dinner: Total - " + getNumOfPeople("all", "6/18Night") + "; Male - " + getNumOfPeople("male", "6/18Night") + "; Female - " + getNumOfPeople("female", "6/18Night") + "; Kids (12 and under) - " + getNumOfPeople("kid", "6/18Night"));
@@ -249,6 +249,35 @@ public class Main {
                 if (person.getMealDict().get("6/19Noon") == true)
                     System.out.println(person.getChineseName() + ", " + person.getEnglishName());
             }
+        }
+    }
+
+    public static void retMealInfo(boolean includeNames) { //returns meal information - number of people eating on what day
+        if (!includeNames) {
+            System.out.println("6/18 Lunch: Total - " + getNumOfPeople("all", "6/18Noon") + "; Male - " + getNumOfPeople("male", "6/18Noon") + "; Female - " + getNumOfPeople("female", "6/18Noon") + "; Kids (12 and under) - " + getNumOfPeople("kid", "6/18Noon"));
+            System.out.println("6/18 Dinner: Total - " + getNumOfPeople("all", "6/18Night") + "; Male - " + getNumOfPeople("male", "6/18Night") + "; Female - " + getNumOfPeople("female", "6/18Night") + "; Kids (12 and under) - " + getNumOfPeople("kid", "6/18Night"));
+            System.out.println("6/19 Lunch: Total - " + getNumOfPeople("all", "6/19Noon") + "; Male - " + getNumOfPeople("male", "6/19Noon") + "; Female - " + getNumOfPeople("female", "6/19Noon") + "; Kids (12 and under) - " + getNumOfPeople("kid", "6/19Noon"));
+        }
+        else {
+            ArrayList<Person> list = retListOfPeople();
+            System.out.println("\n--------------------------------6/18 lunch----------------------------------------");
+            System.out.println("6/18 Lunch: Total - " + getNumOfPeople("all", "6/18Noon") + "; Male - " + getNumOfPeople("male", "6/18Noon") + "; Female - " + getNumOfPeople("female", "6/18Noon") + "; Kids (12 and under) - " + getNumOfPeople("kid", "6/18Noon"));
+            System.out.println("---------6/18 lunch - families ----------------------------------------");
+            retFamilies("6/18Noon");
+            System.out.println("---------6/18 lunch - possible same addresses--------------------------");
+            retHousemates("6/18Noon");
+            System.out.println("\n--------------------------------6/18 dinner----------------------------------------");
+            System.out.println("6/18 Dinner: Total - " + getNumOfPeople("all", "6/18Night") + "; Male - " + getNumOfPeople("male", "6/18Night") + "; Female - " + getNumOfPeople("female", "6/18Night") + "; Kids (12 and under) - " + getNumOfPeople("kid", "6/18Night"));
+            System.out.println("---------6/18 dinner - families ----------------------------------------");
+            retFamilies("6/18Night");
+            System.out.println("---------6/18 dinner - possible same addresses--------------------------");
+            retHousemates("6/18Night");
+            System.out.println("\n--------------------------------6/19 lunch----------------------------------------");
+            System.out.println("6/19 Lunch: Total - " + getNumOfPeople("all", "6/19Noon") + "; Male - " + getNumOfPeople("male", "6/19Noon") + "; Female - " + getNumOfPeople("female", "6/19Noon") + "; Kids (12 and under) - " + getNumOfPeople("kid", "6/19Noon"));
+            System.out.println("---------6/19 lunch - families ----------------------------------------");
+            retFamilies("6/19Noon");
+            System.out.println("---------6/19 lunch - possible same addresses--------------------------");
+            retHousemates("6/19Noon");
         }
     }
 
@@ -337,7 +366,7 @@ public class Main {
         int numFamilies = 0;
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\steph\\Downloads\\TCCA Retreat 2022 (Responses) - Form Responses.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("/Users/benjamin/Downloads/Retreat2022Responses.csv"));
             CSVReader csvReader = new CSVReader(br);
             List<String[]> listOfFamilies;
             listOfFamilies = csvReader.readAll();
@@ -396,6 +425,8 @@ public class Main {
                     if (willEat) {
                         newFamily.addMember(newPerson.getChineseName() + ", " + newPerson.getEnglishName());
                     }
+                    cutStartInd += 12;
+                    anotherPerson = tempArr[cutStartInd-1].contains("Yes");
                     while (anotherPerson) {
                         newPerson = new Person(tempArr[cutStartInd], tempArr[cutStartInd+1], tempArr[cutStartInd + 2].contains("female") ? "female" : "male", Integer.parseInt(tempArr[cutStartInd + 4]), tempArr[cutStartInd + 5].contains("in-person") ? "in-person" : "online", tempArr[cutStartInd + 7].contains("Yes"), null, address);
                         newPerson.addMealInfo("6/18Noon", tempArr[cutStartInd + 8].contains("Yes"));
@@ -411,7 +442,7 @@ public class Main {
                         anotherPerson = tempArr[cutStartInd-1].contains("Yes");
 
                     }
-                    if (familyCreated) {
+                    if (newFamily.famList.size() > 0) {
                         famList.add(newFamily);
                         numFamilies++;
                     }
@@ -442,7 +473,7 @@ public class Main {
 
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\steph\\Downloads\\TCCA Retreat 2022 (Responses) - Form Responses.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("/Users/benjamin/Downloads/Retreat2022Responses.csv"));
             CSVReader csvReader = new CSVReader(br);
             List<String[]> listOfFamilies;
             listOfFamilies = csvReader.readAll();
